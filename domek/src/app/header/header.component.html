@@ -1,0 +1,25 @@
+<ly-toolbar position="static" bg="primary" [elevation]="3">
+  <ly-grid container>
+    <ly-grid item [col]="2">
+      <ly-grid container>
+        <ly-grid item col="6">
+          <button lyDisplay="none@Tablet@Web" [withClass]="classes.icon" color="primary:contrast" ly-button
+            appearance="icon">
+            <ly-icon icon="menu"></ly-icon>
+          </button>
+        </ly-grid>
+        <ly-grid item col="6">
+          <h6 [lyTyp]="'title'">Title</h6>
+        </ly-grid>
+      </ly-grid>
+    </ly-grid>
+    <ly-grid item [col]="10">
+      <ly-tabs lyDisplay="none@Handset" [alignTabs]="'stretch'">
+        <ly-tab *ngFor="let link of links let i = index">
+          <button ly-tab-label (click)="activeLink = link" [active]="activeLink == link"
+            [routerLink]="link">{{pageNames[i]}}</button>
+        </ly-tab>
+      </ly-tabs>
+    </ly-grid>
+  </ly-grid>
+</ly-toolbar>

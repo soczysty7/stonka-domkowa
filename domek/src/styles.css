@@ -1,0 +1,9 @@
+body {
+    /* font-family: 'MontserratRegular';
+    font-size: min(max(1rem, 4vw), 22px);
+    font-weight: '400'; */
+    /* height: 2880px; */
+    margin: 0;
+    padding: 0;
+}
+html, body { height: 100%; }
