@@ -1,20 +1,17 @@
 <ly-toolbar position="static" bg="primary" [elevation]="3">
-  <ly-grid container>
-    <ly-grid item [col]="2">
-      <ly-grid container>
-        <ly-grid item col="6">
-          <button lyDisplay="none@Tablet@Web" [withClass]="classes.icon" color="primary:contrast" ly-button
-            appearance="icon">
-            <ly-icon icon="menu"></ly-icon>
-          </button>
-        </ly-grid>
-        <ly-grid item col="6">
-          <h6 [lyTyp]="'title'">Title</h6>
-        </ly-grid>
-      </ly-grid>
+  <button lyDisplay="none@Tablet@Web" class="hamburger hamburger--spin" [ngClass]="{'is-active' : isDrawerToggled}"
+    type="button" (click)="toggleDrawer()">
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+  </button>
+  <h6 lyDisplay="none@Tablet@Web" [lyTyp]="'title'">Title</h6>
+  <ly-grid container lyDisplay="none@Handset">
+    <ly-grid item [col]="2" id="titular">
+      <h6 [lyTyp]="'title'">Title</h6>
     </ly-grid>
     <ly-grid item [col]="10">
-      <ly-tabs lyDisplay="none@Handset" [alignTabs]="'stretch'">
+      <ly-tabs [alignTabs]="'stretch'">
         <ly-tab *ngFor="let link of links let i = index">
           <button ly-tab-label (click)="activeLink = link" [active]="activeLink == link"
             [routerLink]="link">{{pageNames[i]}}</button>
@@ -23,3 +20,17 @@
     </ly-grid>
   </ly-grid>
 </ly-toolbar>
+<div ly-paper bg="background">
+  <ly-drawer-container [withClass]="classes.drawerContainer" (click)="isDrawerToggled && containerClick($event)">
+    <ly-drawer #drawer01="lyDrawer" ly-paper [opened]="false" [position]="position" [mode]="mode" [drawerWidth]="170"
+      [hasBackdrop]="hasBackdrop" bg="background:primary">
+      <div [className]="classes.drawerContent" *ngFor="let link of links let i = index">
+        <button ly-button (click)="activeLink = link" [ngClass]="{'raised' : activeLink == link}"
+          [routerLink]="link">{{pageNames[i]}}</button>
+      </div>
+    </ly-drawer>
+    <ly-drawer-content [withClass]="classes.drawerContent">
+      <router-outlet></router-outlet>
+    </ly-drawer-content>
+  </ly-drawer-container>
+</div>

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { LyTabsModule } from '@alyle/ui/tabs';
 
 import { LyTypographyModule } from '@alyle/ui/typography';
-import { LyCommonModule } from '@alyle/ui';
+import { LyCommonModule, PartialThemeVariables } from '@alyle/ui';
 
 // Gestures
 import {
@@ -33,10 +33,24 @@ import { LyToolbarModule } from '@alyle/ui/toolbar';
 import { LyGridModule } from '@alyle/ui/grid';
 import { LyIconModule } from '@alyle/ui/icon';
 import { LyBadgeModule } from '@alyle/ui/badge';
+import { LyDrawerModule } from '@alyle/ui/drawer';
 
 /** Import themes */
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 import { HttpClientModule } from '@angular/common/http';
+import { color } from '@alyle/ui/color';
+
+export class CustomMinimaLight implements PartialThemeVariables {
+  name = 'minima-light';
+  primary = {
+    default: color(0xF7A500),
+    contrast: color(0xffffff)
+  };
+  accent = {
+    default: color(0xFF5733),
+    contrast: color(0xffffff)
+  };
+}
 
 @NgModule({
   declarations: [
@@ -52,6 +66,7 @@ import { HttpClientModule } from '@angular/common/http';
     LyButtonModule,
     LyToolbarModule,
     LyIconModule,
+    LyDrawerModule,
     // ...
     // Gestures
     HammerModule,
@@ -69,8 +84,9 @@ import { HttpClientModule } from '@angular/common/http';
     [ StyleRenderer ],
     // Theme that will be applied to this module
     { provide: LY_THEME_NAME, useValue: 'minima-light' },
-    { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
     { provide: LY_THEME, useClass: MinimaDark, multi: true }, // name: `minima-dark`
+    { provide: LY_THEME, useClass: MinimaLight, multi: true }, // name: `minima-light`
+    { provide: LY_THEME, useClass: CustomMinimaLight, multi: true }, // name minima-light
     // Gestures
     { provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig }
   ],

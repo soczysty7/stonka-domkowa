@@ -1,0 +1,10 @@
+::ng-deep .LyTabs-labelsContainer-v.c--primary___4____true-bk {
+    box-shadow: none;
+}
+
+#titular {
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    padding-left: 1em;
+}
