@@ -43,11 +43,11 @@ import { color } from '@alyle/ui/color';
 export class CustomMinimaLight implements PartialThemeVariables {
   name = 'minima-light';
   primary = {
-    default: color(0xF7A500),
+    default: color(0xf9c74f),
     contrast: color(0xffffff)
   };
   accent = {
-    default: color(0xFF5733),
+    default: color(0xf3722c),
     contrast: color(0xffffff)
   };
 }

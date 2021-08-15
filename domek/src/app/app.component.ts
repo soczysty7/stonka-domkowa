@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { StyleRenderer, ThemeVariables, lyl, WithStyles } from '@alyle/ui';
+import {AppStateService} from './services/app-state.service';
 
 const STYLES = (theme: ThemeVariables) => ({
   $global: lyl `{
@@ -24,10 +25,20 @@ const STYLES = (theme: ThemeVariables) => ({
     StyleRenderer
   ]
 })
-export class AppComponent implements WithStyles {
+export class AppComponent implements WithStyles, OnInit {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   public title = 'domek';
   constructor(
-    readonly sRenderer: StyleRenderer
+    readonly sRenderer: StyleRenderer,
+    private appState: AppStateService
   ) { }
+
+  public ngOnInit() {
+    this.appState.scaleWindowHeight(window.innerHeight);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  private onResize(event: any): void {
+    this.appState.scaleWindowHeight(event.target.innerHeight)
+  }
 }

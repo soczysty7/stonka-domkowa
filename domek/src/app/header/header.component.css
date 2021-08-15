@@ -1,10 +1,14 @@
-::ng-deep .LyTabs-labelsContainer-v.c--primary___4____true-bk {
+::ng-deep .LyTabs-labelsContainer-z.c--primary___4____true-bo {
     box-shadow: none;
 }
 
 #titular {
-    flex-direction: row;
-    align-items: center;
-    display: flex;
-    padding-left: 1em;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  padding-left: 1em;
+}
+
+.fontText {
+  font-size: calc(16px + 6 * ((100vw - 320px) / 680));
 }
