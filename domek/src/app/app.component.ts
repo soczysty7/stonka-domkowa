@@ -1,6 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import { StyleRenderer, ThemeVariables, lyl, WithStyles } from '@alyle/ui';
 import {AppStateService} from './services/app-state.service';
+import * as AOS from 'aos';
 
 const STYLES = (theme: ThemeVariables) => ({
   $global: lyl `{
@@ -34,6 +35,7 @@ export class AppComponent implements WithStyles, OnInit {
   ) { }
 
   public ngOnInit() {
+    AOS.init();
     this.appState.scaleWindowHeight(window.innerHeight);
   }
 

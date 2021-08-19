@@ -39,6 +39,7 @@ import { LyDrawerModule } from '@alyle/ui/drawer';
 import { MinimaLight, MinimaDark } from '@alyle/ui/themes/minima';
 import { HttpClientModule } from '@angular/common/http';
 import { color } from '@alyle/ui/color';
+import { CommonComponentsModule } from './common/common-components.module';
 
 export class CustomMinimaLight implements PartialThemeVariables {
   name = 'minima-light';
@@ -67,6 +68,7 @@ export class CustomMinimaLight implements PartialThemeVariables {
     LyToolbarModule,
     LyIconModule,
     LyDrawerModule,
+    CommonComponentsModule,
     // ...
     // Gestures
     HammerModule,

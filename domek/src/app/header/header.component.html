@@ -1,4 +1,4 @@
-<ly-toolbar id="toolbar" position="fixed" bg="primary" [elevation]="3">
+<ly-toolbar id="toolbar" position="fixed" bg="primary" [elevation]="3" [ngClass]="{'transparent': isTransparent && activeLink === links[0] }">
   <button lyDisplay="none@Tablet@Web" class="hamburger hamburger--spin" [ngClass]="{'is-active' : isDrawerToggled}"
     type="button" (click)="toggleDrawer()">
     <span class="hamburger-box">
@@ -11,26 +11,32 @@
       <ly-icon icon="home" [ngClass]="[classes.icon, classes.iconLarge]"></ly-icon>
     </ly-grid>
     <ly-grid item [col]="10">
-      <ly-tabs [alignTabs]="'stretch'">
+      <ly-tabs [alignTabs]="'stretch'" [ngClass]="{'transparent': isTransparent && activeLink === links[0]} ">
         <ly-tab *ngFor="let link of links let i = index">
-          <button ly-tab-label (click)="activeLink = link" [active]="activeLink == link"
-            [routerLink]="link" class="fontText">{{pageNames[i]}}</button>
+          <button ly-tab-label (click)="activeLink = link" [active]="activeLink == link" [routerLink]="link"
+            class="fontText">{{pageNames[i]}}</button>
         </ly-tab>
       </ly-tabs>
     </ly-grid>
   </ly-grid>
 </ly-toolbar>
 <div ly-paper bg="background" [ngStyle]="{'height': contentHeight }">
-  <ly-drawer-container [withClass]="classes.drawerContainer" [ngStyle]="{'height': contentHeight }" (click)="isDrawerToggled && containerClick($event)">
-    <ly-drawer #drawer01="lyDrawer" ly-paper [opened]="false" [position]="position" [mode]="mode" [drawerWidth]="drawerWidth"
-      [hasBackdrop]="hasBackdrop" bg="background:primary" [ngStyle]="{ 'margin-top': headerHeight }">
+  <ly-drawer-container [withClass]="classes.drawerContainer" [ngStyle]="{'height': contentHeight }"
+    (click)="isDrawerToggled && containerClick($event)">
+    <ly-drawer #drawer01="lyDrawer" ly-paper [opened]="false" [position]="position" [mode]="mode"
+      [drawerWidth]="drawerWidth" [hasBackdrop]="hasBackdrop" bg="background:primary"
+      [ngStyle]="{ 'margin-top': headerHeight }">
       <div [className]="classes.drawerContent" *ngFor="let link of links let i = index">
-        <button ly-button (click)="activeLink = link" [ngClass]="{'raised' : activeLink == link}"
-          [routerLink]="link" class="fontText">{{pageNames[i]}}</button>
+        <button ly-button (click)="activeLink = link" [ngClass]="{'raised' : activeLink == link}" [routerLink]="link"
+          class="fontText">{{pageNames[i]}}</button>
       </div>
     </ly-drawer>
-    <ly-drawer-content [withClass]="classes.drawerContent" [ngStyle]="{'height': contentWithoutHeader, 'margin-top': headerHeight, 'overflow-y': 'auto' }">
-      <router-outlet></router-outlet>
+    <ly-drawer-content id="content"
+    [ngStyle]="{'height': contentHeight, 'margin-top': activeLink === links[0] ?  '0px' : headerHeight, 'overflow-y': 'auto' }">
+      <app-heading-photo *ngIf="activeLink === links[0]"></app-heading-photo>
+      <div class="drawerContent">
+        <router-outlet></router-outlet>
+      </div>
     </ly-drawer-content>
   </ly-drawer-container>
 </div>

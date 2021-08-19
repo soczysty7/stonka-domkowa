@@ -1,4 +1,4 @@
-::ng-deep .LyTabs-labelsContainer-z.c--primary___4____true-bo {
+::ng-deep .LyTabs-labelsContainer-z.c--primary___4____true-ch {
     box-shadow: none;
 }
 
@@ -6,7 +6,22 @@
   flex-direction: row;
   align-items: center;
   display: flex;
-  padding-left: 1em;
+  padding-left: 2em;
+}
+
+.transparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+.drawerContent {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+::ng-deep .transparent .LyTabs-labelsContainer-z.c--primary___4____true-ch {
+  background: transparent;
+  box-shadow: none;
 }
 
 .fontText {

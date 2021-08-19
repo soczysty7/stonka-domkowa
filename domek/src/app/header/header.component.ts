@@ -1,10 +1,12 @@
 import { LyTheme2, Placement } from '@alyle/ui';
 import { LyDrawer, LyDrawerMode } from '@alyle/ui/drawer';
 import { LyIconService } from '@alyle/ui/icon';
-import { Component, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {AppStateService} from '../services/app-state.service';
-import {Subscription, zip} from 'rxjs';
+import {fromEvent, Subscription, zip} from 'rxjs';
+import {throttleTime, distinctUntilChanged, tap, map} from 'rxjs/operators';
+import { ChangeDetectorRef } from '@angular/core';
 
 const styles = ({
   grow: {
@@ -32,24 +34,26 @@ const styles = ({
   changeDetection: ChangeDetectionStrategy.OnPush
   // animations: []
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('drawer01') drawer!: LyDrawer;
-  links = ['/about', '/news', '/place', '/contact'];
-  pageNames = ['Domek', 'Aktualności', 'Krynica', 'Kontakt']
-  elementPosition: any;
-  activeLink = this.links[0];
-  hasBackdrop: boolean = true;
-  mode = 'over' as LyDrawerMode;
-  position = 'before' as Placement;
-  isDrawerToggled = false;
+export class HeaderComponent implements AfterViewInit, OnInit, OnDestroy {
+  @ViewChild('drawer01') public drawer!: LyDrawer;
+  public links = ['/about', '/news', '/place', '/contact'];
+  public pageNames = ['Domek', 'Aktualności', 'Krynica', 'Kontakt']
+  public elementPosition: any;
+  public activeLink = this.links[0];
+  public hasBackdrop: boolean = true;
+  public mode = 'over' as LyDrawerMode;
+  public position = 'before' as Placement;
+  public isDrawerToggled = false;
   public subscriptions = new Subscription();
+  public selectedRoutePageMargin = '0px';
   public contentHeight = '0px';
   public headerHeight = '0px';
-  public contentWithoutHeader = '0px';
   public drawerWidth = 190
+  public isTransparent = true;
 
   readonly classes = this._theme.addStyleSheet(styles);
   constructor(
+    private changeDetecotor: ChangeDetectorRef,
     private appState: AppStateService,
     private _theme: LyTheme2,
     icon: LyIconService,
@@ -64,12 +68,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
         .subscribe((h: number[]) => {
           this.headerHeight = h[0].toString() + 'px';
           this.contentHeight = h[1].toString() + 'px';
-          this.contentWithoutHeader = (h[1] - 2 * h[0] + 32).toString() + 'px';
         }));
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  public ngAfterViewInit() {
+    const content = document.querySelector('#content') as HTMLElement;
+    this.elementPosition = content.scrollTop;
+    const scroll$ = fromEvent(content, 'scroll').pipe(
+      throttleTime(10),
+      map(() => 10 > content.scrollTop),
+      distinctUntilChanged(),
+      tap(() => this.changeDetecotor.markForCheck()),
+    ).subscribe((s: boolean) => this.isTransparent = s);
+    this.subscriptions.add(scroll$);
   }
 
   public toggleDrawer(): void {

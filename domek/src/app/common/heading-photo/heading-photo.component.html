@@ -1,0 +1,8 @@
+<ly-carousel [withClass]="classes.carousel" [touch]="true" [hasNavigationArrows]="false">
+    <ly-carousel-item *ngFor="let item of items" [withClass]="classes.carouselItem" [srcImg]="item.img">
+        <h1>{{ item.title }}</h1>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+    </ly-carousel-item>
+</ly-carousel>
