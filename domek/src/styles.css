@@ -1,3 +1,5 @@
+@import '~mapbox-gl/dist/mapbox-gl.css';
+
 body {
     /* font-family: 'MontserratRegular';
     font-size: min(max(1rem, 4vw), 22px);

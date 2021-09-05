@@ -1,0 +1,34 @@
+<ly-accordion
+  [withClass]="classes.expansion"
+  [hasToggle]="false"
+>
+  <ly-expansion-panel
+    *ngFor="let panel of panelStates; index as i"
+    [expanded]="panel.state"
+    (opened)="panel.state = true"
+    (closed)="panel.state = false"
+  >
+    <ly-expansion-panel-header>
+      <ly-panel-title
+      >Informacje o nas {{ i + 1 }}</ly-panel-title>
+      <button
+        ly-button
+        [color]="panel.state ? 'primary' : 'text'"
+        appearance="icon"
+      >
+        <ly-expansion-icon
+          [up]="panel.state"
+        ></ly-expansion-icon>
+      </button>
+    </ly-expansion-panel-header>
+    <p>
+        Spinoza emphatically rejected Cartesian interactionism. For him, extended nature is an entirely closed system.
+        All the determinations of body, including not just quantity of motion but also direction, 
+        are wholly accounted for by the causal determination of other bodies, combined with the nature of the body in question.
+        Spinoza makes this quite clear in Ip28:
+        Every singular thing, or any thing which is finite and has a determinate existence,
+        can neither exist nor be determined to produce an effect unless it is determined to exist and produce an effect by another cause,
+        which is also finite and has a determinate existence … and so on, to infinity.
+    </p>
+  </ly-expansion-panel>
+</ly-accordion>
