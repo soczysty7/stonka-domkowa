@@ -93,7 +93,7 @@ export class HeaderComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public containerClick(event: any): void {
-    const hasClickedBackdrop = (event.target as HTMLElement).className.includes('LyDrawerContent-backdrop');
+    const hasClickedBackdrop = (event.target as HTMLElement).className.includes('at');
     if(!hasClickedBackdrop) { return; }
     this.isDrawerToggled = !this.isDrawerToggled;
   }

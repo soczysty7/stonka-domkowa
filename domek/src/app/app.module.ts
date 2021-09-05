@@ -59,7 +59,7 @@ export class CustomMinimaLight implements PartialThemeVariables {
     HeaderComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     LyGridModule,
     HttpClientModule,
     BrowserAnimationsModule,
