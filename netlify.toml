@@ -1,7 +1,7 @@
 # example netlify.toml
 [build]
   base = "domek/"
-  command = "ng run domek:prerender"
+  command = "npm run prerender"
   functions = "netlify/functions"
   publish = "dist/domek/browser"
 
