@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { Component, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+
+function getWindow (): any {
+  return window;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +15,14 @@ export class AppStateService {
 
   private viewerContentHeight = new BehaviorSubject<number>(0);
   private headerHeight = new BehaviorSubject<number>(0);
-  constructor() { }
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: any) { }
+  
+
+  get nativeWindow (): Window {
+    return getWindow();
+}
 
   public getContentHeight$(): Observable<number> {
     return this.viewerContentHeight.asObservable();
@@ -19,7 +33,8 @@ export class AppStateService {
   }
 
   public scaleWindowHeight(windowHeight: number): void {
-    const header = document.querySelector('#toolbar') as HTMLElement;
+    if (!isPlatformBrowser(this.platformId)) { return; }
+    const header = this.document.querySelector('#toolbar') as HTMLElement;
     const headerHeight = header.offsetHeight;
     const numericContentHeight = windowHeight;
     this.headerHeight.next(headerHeight);

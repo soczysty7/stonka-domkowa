@@ -1,12 +1,13 @@
 import { LyTheme2, Placement } from '@alyle/ui';
 import { LyDrawer, LyDrawerMode } from '@alyle/ui/drawer';
 import { LyIconService } from '@alyle/ui/icon';
-import { Component, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, OnInit, OnDestroy, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {AppStateService} from '../services/app-state.service';
 import {fromEvent, Subscription, zip} from 'rxjs';
 import {throttleTime, distinctUntilChanged, tap, map} from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 const styles = ({
   grow: {
@@ -53,6 +54,8 @@ export class HeaderComponent implements AfterViewInit, OnInit, OnDestroy {
 
   readonly classes = this._theme.addStyleSheet(styles);
   constructor(
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: any,
     private changeDetecotor: ChangeDetectorRef,
     private appState: AppStateService,
     private _theme: LyTheme2,
@@ -76,7 +79,8 @@ export class HeaderComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    const content = document.querySelector('#content') as HTMLElement;
+    if (!isPlatformBrowser(this.platformId)) { return; }
+    const content = this.document.querySelector('#content') as HTMLElement;
     this.elementPosition = content.scrollTop;
     const scroll$ = fromEvent(content, 'scroll').pipe(
       throttleTime(10),

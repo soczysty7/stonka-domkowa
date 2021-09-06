@@ -1,34 +1,36 @@
 <div id="contact-container">
-    <div data-aos="fade-right">
+    <div>
         <h1>Tu będą dane kontaktowe</h1>
     </div>
-    <mgl-map [style]="'mapbox://styles/soczysty7/ckt7oofq646gc17mwf1tc86k5'" [zoom]="[16]" [center]="domekPosition"
-        [locale]="locale">
-        <mgl-control mglFullscreen position="top-left"></mgl-control>
-        <mgl-control mglGeolocate position="top-left"></mgl-control>
-        <mgl-control mglNavigation position="top-left"></mgl-control>
-        <mgl-control position="top-left">
-            <button ly-button appearance="icon" class="home-btn" (click)="centerMap()" aria-label="Idź do Domku">
-                <ly-icon icon="home" [ngClass]="[classes.returnIcon]"></ly-icon>
-            </button>
-        </mgl-control>
-        <mgl-control mglScale></mgl-control>
-        <mgl-marker #myMarker [lngLat]="domekPosition">
-            <div [ngStyle]="{
-            'background-image': 'url(../../../assets/icons/domek-map-icon-min.jpg)',
-            'background-size': 'cover',
-            width: '50px',
-            height: '50px',
-            'border-radius': '50%',
-            cursor: 'pointer'
-          }"></div>
-        </mgl-marker>
-        <mgl-popup [marker]="myMarker">
-            Domek usytuowany jest w centrum Krynicy, lecz w naturalnym zaciszu.
-            Aby dojechać do domku należy przekroczyć rzekę ;)
-        </mgl-popup>
-    </mgl-map>
-    <div data-aos="fade-up" id="expansion-info">
+    <div *ngIf="isNotOnServer">
+        <mgl-map [style]="'mapbox://styles/soczysty7/ckt7oofq646gc17mwf1tc86k5'" [zoom]="[16]" [center]="domekPosition"
+            [locale]="locale">
+            <mgl-control mglFullscreen position="top-left"></mgl-control>
+            <mgl-control mglGeolocate position="top-left"></mgl-control>
+            <mgl-control mglNavigation position="top-left"></mgl-control>
+            <mgl-control position="top-left">
+                <button ly-button appearance="icon" class="home-btn" (click)="centerMap()" aria-label="Idź do Domku">
+                    <ly-icon icon="home" [ngClass]="[classes.returnIcon]"></ly-icon>
+                </button>
+            </mgl-control>
+            <mgl-control mglScale></mgl-control>
+            <mgl-marker #myMarker [lngLat]="domekPosition">
+                <div [ngStyle]="{
+                'background-image': 'url(../../../assets/icons/domek-map-icon-min.jpg)',
+                'background-size': 'cover',
+                width: '50px',
+                height: '50px',
+                'border-radius': '50%',
+                cursor: 'pointer'
+              }"></div>
+            </mgl-marker>
+            <mgl-popup [marker]="myMarker">
+                Domek usytuowany jest w centrum Krynicy, lecz w naturalnym zaciszu.
+                Aby dojechać do domku należy przekroczyć rzekę ;)
+            </mgl-popup>
+        </mgl-map>
+    </div>
+    <div id="expansion-info">
         <ly-grid container [spacing]="16">
             <ly-grid item [col]="1">
                 <div></div>

@@ -1,7 +1,7 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { StyleRenderer, ThemeVariables, lyl, WithStyles } from '@alyle/ui';
 import {AppStateService} from './services/app-state.service';
-import * as AOS from 'aos';
+import { isPlatformBrowser } from '@angular/common';
 
 const STYLES = (theme: ThemeVariables) => ({
   $global: lyl `{
@@ -30,13 +30,16 @@ export class AppComponent implements WithStyles, OnInit {
   readonly classes = this.sRenderer.renderSheet(STYLES, true);
   public title = 'domek';
   constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
     readonly sRenderer: StyleRenderer,
     private appState: AppStateService
   ) { }
 
   public ngOnInit() {
-    AOS.init();
-    this.appState.scaleWindowHeight(window.innerHeight);
+    if (isPlatformBrowser(this.platformId)) {
+      const windowS = this.appState.nativeWindow;
+      this.appState.scaleWindowHeight(windowS.innerHeight);
+    }
   }
 
   @HostListener('window:resize', ['$event'])

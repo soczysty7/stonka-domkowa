@@ -3,12 +3,35 @@ import 'zone.js/dist/zone-node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
+//@ts-ignore
+import { Blob } from "blob-polyfill";
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+const domino = require('domino');
+const fs = require('fs');
+const path = require('path');
 
-// The Express app is exported so that it can be used by serverless Functions.
+// Use the browser index.html as template for the mock window
+const distFolder = join(process.cwd(), 'dist/domek/browser');
+const indexHtmlName = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index.html';
+const template = fs.readFileSync(path.join(distFolder, indexHtmlName)).toString();
+
+// Shim for the global window and document objects.
+const win = domino.createWindow(template);
+win.URL = { createObjectURL: () => ({})};
+win.document = { createElement: () => ({})};
+global['window'] = win;
+global['document'] = win.document;
+//@ts-ignore
+global["branch"] = null;
+//@ts-ignore
+global["object"] = win.object;
+global["HTMLElement"] = win.HTMLElement;
+global["navigator"] = win.navigator;
+global['Blob'] = Blob;
+
 export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/domek/browser');

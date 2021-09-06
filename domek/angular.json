@@ -28,8 +28,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/assets/css/hamburgers.css",
-              "node_modules/aos/dist/aos.css"
+              "src/assets/css/hamburgers.css"
             ],
             "scripts": []
           },
